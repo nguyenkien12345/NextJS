@@ -1,0 +1,61 @@
+************************************************************ Dynamic Route ************************************************************
+[id].tsx: Đây là 1 page tượng trưng cho id được truyền trên đường dẫn.
+VD: 
++ Cấu trúc đường dẫn:     admin->uer->[id].tsx 
++ Đường dẫn nhập vào URL: /admin/user/123 => 123 ở đây chính là page tượng trưng cho file [id].tsx
+
++ Cấu trúc đường dẫn:     user->[id]->setting.tsx
++ Đường dẫn nhập vào URL: /admin/123/setting => 123 ở đây chính folder [id]
+***************************************************************************************************************************************
+
+
+
+************************************************************ Routing Basic ************************************************************
+Để lấy ra được params ta có 2 phương thức:
++ 1 là dùng hook useRouter (Chỉ sử dụng được cho function component)
++ 2 là dùng withRouter (Sử dụng được cho cả function component và class component)
+Khi sử dụng useRouter để console.log ra đúng cái router thì bắt buộc phải đứng ngay tại cái file mà ta đang gọi đường dẫn thì mới hiện ra
+***************************************************************************************************************************************
+
+
+
+***************************************************************************************************************************************
+Data Fetching -> Server Side Rendering (Lấy được id ở phía server và phía client sẽ nhận được id)
+Client Side Rendering (Lấy và xử lý id ở phía client)
+***************************************************************************************************************************************
+
+
+
+************************************************************ Static File Serving ******************************************************
++ Chứa những file tĩnh (thường là file ảnh,css...) mà người dùng có thể truy cập trực tiếp trên đường dẫn thông qua URL
++ Các file tĩnh luôn luôn được khai báo trong folder public
++ Giúp nextjs phân biệt được đâu là file, đâu là pages, đâu là routing
++ VD: localhost:3000/css/global.css, http://localhost:3000/images/NgoNguyenPhuongMy.jpg
++ Trong cặp thẻ Head có các thẻ link, mỗi 1 thẻ link này có 1 href, các href này đều bắt đầu bằng dấu /, dấu / này tượng trưng cho folder public
++ Cứ / đầu là nó sẽ hiểu mặc định là vào public
+***************************************************************************************************************************************
+
+
+
+***************************************************************************************************************************************
+Câu lệnh import là câu lệnh dành cho module nếu mình muốn import 1 tấm hình theo dạng module thì minh phải sử dụng đến webpack
+***************************************************************************************************************************************
+
+
+
+***************************************************************************************************************************************
+                                                    So sánh State trong Class Và Function
+1) State ở bên class gộp hết vào trong 1 object, còn ở bên Function tách ra thành từng state nhỏ
+2) 
++ setState ở bên class nhận vào 2 giá trị partial state (chỉ chấp nhận object hoặc là function), call back. Khi có nhiều state mà ta chỉ cần cập nhật 1 phần cái state cũ thì chỉ cần setState 1 phần state cũ đó chứ không cần truyền hết, các state còn lại sẽ giữ nguyên không mất.
+
++ Hàm useState luôn trả về 1 cái array, ta sẽ dùng Destructuring để phân rã cái array đó ra thành 2 phần tử là [value,setValue], phần tử đầu là giá trị, phần tử thứ 2 là function.
+Khi setState ta sẽ set cho từng cái state. Ta truyền cái gì vào state thì khi setState phải sét đầy đủ giá trị của state đó. Ví dụ ta truyền vào state 1 cái object gồm 2 giá trị thì khi setState ta phải set đủ cả 2 thằng. Nếu chỉ setState 1 giá trị, thì giá trị còn lại phải ghi lại y chang như lúc khai báo nếu không thì giá trị này sẽ mất đi. Đó là lý do khi setState trong function ta nên tách nhỏ ra chứ không nên gộp nhiều
+***************************************************************************************************************************************
+
+***************************************************************************************************************************************
+useEffect không truyền vào dependency tương ứng với componentDidMount và componentDidUpdate
+useEffect mà có return về 1 function thì nó giống như componentWillUnmount (Gỡ bỏ khỏi cấu trúc DOM)
+useEffect có dependency là [] tương ứng với componentDidMount (Chỉ chạy 1 lần duy nhất sau khi render lần đầu tiên)
+useEffect có dependency là [value] tương ứng với componentWillUpdate (Luôn chạy lần đầu tiên, lần sau nếu value thay đổi mới chạy ngược lại thì không)
+***************************************************************************************************************************************

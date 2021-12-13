@@ -1,0 +1,17 @@
++ Những dữ liệu trả về của các hàm getStaticProps,getStaticPaths,getServerSideProps khi console.log thì nó sẽ chỉ hiển thị trên terminal chứ    không hề hiển thị trên browser tại vì 3 hàm này được coi là server code (nghĩa là code bên phía server chứ không phải client) nên chúng ta thấy nó hiển thị ở phía backend chứ không phải ở phía client.
+
++ getStaticPaths: Lấy dữ liệu kiểu tĩnh, nhưng dữ liệu tĩnh nào thì còn phụ thuộc vào path params (Thường là lấy ra các id). 
+VD: Ta có 5 bài viết và bất kì người dùng nào (già trẻ lớn bé) khi xem các bài viết này thì nội dung của 5 bài viết cũng giống nhau không hề khác nhau đối với mỗi người xem. Nội dung trả về của từng post cho toàn bộ người đọc là như nhau (Tạo ra html giống nhau trả về giao hiện hiển thị giống nhau).
+
++ getServerSideProps: Lấy dữ liệu kiểu động (Tạo ra html khác nhau trả về giao hiện hiển thị khác nhau cho mỗi một lần mà người dùng request vào). Dữ liệu phụ thuộc vào mỗi request, nhưng mà vẫn tạo ra HTML tĩnh cho front-end, nên vẫn tốt cho SEO.
+VD: Mỗi một người dùng đăng nhập có thông tin khác nhau, cookie khác nhau nên hiển thị cũng khác nhau không thể giống nhau được. 
+VD: Dữ liệu random
+
+Các Comment liên quan 
+
+1) Ban đầu nó chỉ lấy 5 posts ( 1 --> 5 ) để generate thành HTML tĩnh rồi lưu vào trong cache của thằng Next.js thay vì lấy hẵn 10 posts ( 1 --> 10) thì như vậy lúc npm run build khá tốn thời gian (có thể lên đến cả 100 posts). Nên mỗi khi user click vào post thứ 6 chẳng hạn thì nó sẽ thực hiện request mới lấy post thứ 6 đó về rồi nhét chung vào cache của 5 posts trước và ghi nhớ post thứ 6 đó là "pre-rendered page". Việc bạn F5 lại thấy cái Spinner thì do lúc bạn nhấn F5 thì cũng đồng nghĩa với việc xóa khỏi cache cùng với trạng thái "pre-rendered page" của các post từ thứ 6 trở đi nên Next nó hiểu là, "À, có đứa nào F5 lại trang kìa, clear cache đi và show cái Spinner ngay để chuẩn bị request cho post thứ 6", việc F5 lại trang sẽ tốn thời gian hơn việc bạn click vào post để móc từ trong cache ra (post 1 --> 5 ) để chuyển trang nên nó mới hiện cái Spinner vậy. Mình thấy lúc click vào  post 1 or post 6 thì thời gian để tải trang cũng như nhau nên mình nghĩ cái này sinh ra để giảm thời gian lúc bạn gõ npm run build thôi, "Tưởng tượng nếu bạn có trang tin tức với 1 tỷ bài post (như baomoi.com) thì lúc run build để lưu từng bài post vào cache nó sẽ khủng khiếp ntn, chưa kể trong quá trình build mà lỗi thì build lại nữa =)))"
+
+2) Hỏi: Cái Spinner kia chỉ xuất hiện khi mình nhấn F5 thôi còn lúc click vào post để chuyển trang thì nó ko hiện.
+Trả lời: F5 coi như ta khởi động lại Next.js server rồi, còn click vào post thì Next đã kịp render xong trang đó trước khi Spinner kịp hiện ra.
+
+3) fallback blocking thì sẽ không hiện ra trang tạm nào, browser sẽ ngồi đợi SSR khi nào xong thì hiện ra trang đó. fallback block dùng khi gặp một số vấn đề với `og:*` crawlers hoặc những trang dùng AMP, những cái này đều bị lỗi với những trang có fallback true
