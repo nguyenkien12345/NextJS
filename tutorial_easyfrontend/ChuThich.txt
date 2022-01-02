@@ -1,0 +1,5 @@
+- Nếu ta tạo ra 1 folder api trong next js và để bên ngoài folder pages thì ta bắt buộc phải đổi tên miễn sao không được đặt tên là api vì nếu như ta deploy lên vercel thì nó sẽ báo lỗi vì thằng vercel nó chỉ hiểu folder api bên trong folder page còn folder api bên ngoài page nó sẽ không hiểu. Vì thế ta có thể đổi tên api thành api-client, apis
+- Nếu dùng HttpOnly thì khi gọi hàm document.cookie trong website (f12) sẽ không thể nào lấy được accessToken. Còn nếu không dùng HttpOnly thì khi gọi hàm document.cookie trong website (f12) sẽ lấy được accessToken
+- SameSite Cookie
++ Strict: Khi bạn đi từ một website khác đến website của chính mình thì nó sẽ không có gửi những cookie lên server, nhưng nếu như bạn reload thì nó sẽ chạy lại được
++ Lax: Khi bạn đi từ một website khác đến website của chính mình thì nó sẽ gửi những cookie lên server 

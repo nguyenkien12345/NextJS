@@ -13,7 +13,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "baseUrl": ".", // Đứng tại folder project 
+    "paths": {      // Quy ước những cái nào bắt đầu bằng @ chính là folder gốc
+      "@/components/*":["./components/*"],  
+      "@/models/*":["./models/*"],
+      "@/hooks/*":["./hooks/*"],
+      "@/apis/*":["./apis/*"],
+      "@/utils/*":["./utils/*"],
+      "@/images/*":["./images/*"],
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

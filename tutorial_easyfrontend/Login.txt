@@ -1,0 +1,26 @@
+    const handleLogin = async() => {
+      try {
+        await authApi.login({
+          username: 'NguyenTrungKien',
+          password: '123456789'
+        })
+      } catch (error) {
+        console.log('Failed to login !',error);
+      }
+    }
+
+    const handleGetProfile = async() => {
+     try {
+      await authApi.getProfile();
+     } catch (error) {
+      console.log('Failed to get profile !',error);
+     }
+    }
+
+    const handleLogout = async() => {
+      try {
+      await authApi.logout();
+      } catch (error) {
+        console.log('Failed to logout !',error);
+      }
+    }
